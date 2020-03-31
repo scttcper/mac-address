@@ -8,6 +8,8 @@ npm install @ctrl/mac-address
 ```
 
 ### Use
+
+Example converting a mac address from a string to a number and then a base16 mac address which some apis need.
 ```ts
 import getmac from 'getmac';
 import { parse as parseMac } from '@ctrl/mac-address';
