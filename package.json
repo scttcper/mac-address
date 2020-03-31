@@ -3,6 +3,9 @@
   "version": "0.0.0-placeholder",
   "description": "Parse and manipulate MAC addresses",
   "author": "Scott Cooper <scttcper@gmail.com>",
+  "publishConfig": {
+    "access": "public"
+  },
   "license": "MIT",
   "repository": "typectrl/mac-address",
   "main": "./dist/index.js",
