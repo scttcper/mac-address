@@ -12,7 +12,8 @@
   ],
   "sideEffects": false,
   "keywords": [
-    "typescript"
+    "mac",
+    "address"
   ],
   "scripts": {
     "lint": "eslint --ext .js,.ts, .",
