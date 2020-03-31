@@ -1,0 +1,53 @@
+{
+  "name": "@ctrl/mac-address",
+  "version": "0.0.0-placeholder",
+  "description": "Parse and manipulate MAC addresses",
+  "author": "Scott Cooper <scttcper@gmail.com>",
+  "license": "MIT",
+  "repository": "typectrl/mac-address",
+  "main": "./dist/index.js",
+  "typings": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "sideEffects": false,
+  "keywords": [
+    "typescript"
+  ],
+  "scripts": {
+    "lint": "eslint --ext .js,.ts, .",
+    "lint:fix": "eslint --fix --ext .js,.ts, .",
+    "prepare": "npm run build",
+    "build": "del dist && tsc -p tsconfig.build.json",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:ci": "jest --ci --reporters=default --reporters=jest-junit --coverage",
+    "semantic-release": "semantic-release"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@types/jest": "25.1.4",
+    "@types/node": "13.9.8",
+    "@typescript-eslint/eslint-plugin": "2.26.0",
+    "@typescript-eslint/parser": "2.26.0",
+    "del-cli": "3.0.0",
+    "eslint": "6.8.0",
+    "eslint-config-xo-space": "0.24.0",
+    "eslint-config-xo-typescript": "0.27.0",
+    "jest": "25.2.4",
+    "jest-junit": "10.0.0",
+    "semantic-release": "17.0.4",
+    "ts-jest": "25.3.0",
+    "typescript": "3.8.3"
+  },
+  "jest": {
+    "preset": "ts-jest",
+    "testEnvironment": "node"
+  },
+  "release": {
+    "branch": "master"
+  },
+  "engines": {
+    "node": ">=8"
+  }
+}
