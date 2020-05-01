@@ -1,4 +1,4 @@
-import { parse } from '../src/index';
+import { parseMAC } from '../src/index';
 
 it.each([
   '0a:0b:0c:0d:0e:0f',
@@ -8,9 +8,9 @@ it.each([
   'a-b-c-d-e-f',
   'a-0b-c-d-0e-f',
 ])('should detect if addresses are the same %s', input => {
-  const addr = parse('0a0b0c0d0e0f');
+  const addr = parseMAC('0a0b0c0d0e0f');
 
-  const other = parse(input);
+  const other = parseMAC(input);
   expect(addr.compare(other)).toBe(0);
 });
 
@@ -22,9 +22,9 @@ it.each([
   'a-b-c-d-e-1',
   'a-b0-c-d-0e-f',
 ])('should detect if addresses are different %s', input => {
-  const addr = parse('0a0b0c0d0e0f');
+  const addr = parseMAC('0a0b0c0d0e0f');
 
-  const other = parse(input);
+  const other = parseMAC(input);
   expect(addr.compare(other)).not.toBe(0);
 });
 
@@ -36,8 +36,8 @@ it.each([
   'a-b-c-d-e-1',
   'a-b0-c-d-0e-f',
 ])('should detect if address comes before compared addresses', input => {
-  const addr = parse('00000c0d0e0f');
-  const other = parse(input);
+  const addr = parseMAC('00000c0d0e0f');
+  const other = parseMAC(input);
   expect(addr.compare(other)).toBe(-1);
 });
 
@@ -49,7 +49,7 @@ it.each([
   'a-b-c-d-e-1',
   'a-b0-c-d-0e-f',
 ])('should detect if address comes after compared addresses', input => {
-  const addr = parse('1f002c0d0e0f');
-  const other = parse(input);
+  const addr = parseMAC('1f002c0d0e0f');
+  const other = parseMAC(input);
   expect(addr.compare(other)).toBe(1);
 });
