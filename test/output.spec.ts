@@ -1,8 +1,8 @@
 import { ADDRESS_NUM_PAIRS } from './macs';
-import { parse } from '../src/index';
+import { parseMAC } from '../src/index';
 
 it.each(ADDRESS_NUM_PAIRS)('should output long %s', (mac, value) => {
-  expect(parse(mac).toLong()).toBe(value);
+  expect(parseMAC(mac).toLong()).toBe(value);
 });
 
 it.each([
@@ -10,7 +10,7 @@ it.each([
   ['0-1-ef-9d-ae-f0', '00:01:ef:9d:ae:f0'],
   ['bc-10-ef-9d-ae-f0', 'bc:10:ef:9d:ae:f0'],
 ])('output with leading zeros', (input, output) => {
-  const addr = parse(input);
+  const addr = parseMAC(input);
   expect(addr.toString()).toBe(output);
   expect(addr.toString({ zeroPad: true })).toBe(output);
 });
@@ -20,6 +20,6 @@ it.each([
   ['00-01-ef-9d-ae-f0', '0:1:ef:9d:ae:f0'],
   ['bc-10-ef-9d-ae-f0', 'bc:10:ef:9d:ae:f0'],
 ])('should output without leading zeros %s', (input, output) => {
-  const addr = parse(input);
+  const addr = parseMAC(input);
   expect(addr.toString({ zeroPad: false })).toBe(output);
 });
