@@ -1,4 +1,4 @@
-# @ctrl/mac-address [![npm](https://img.shields.io/npm/v/@ctrl/mac-address.svg?maxAge=3600)](https://www.npmjs.com/package/@ctrl/mac-address) [![CircleCI](https://circleci.com/gh/TypeCtrl/mac-address.svg?style=svg)](https://circleci.com/gh/TypeCtrl/mac-address) [![coverage status](https://codecov.io/gh/typectrl/mac-address/branch/master/graph/badge.svg)](https://codecov.io/gh/typectrl/mac-address)
+# @ctrl/mac-address [![npm](https://badgen.net/npm/v/@ctrl/mac-address)](https://www.npmjs.com/package/@ctrl/mac-address) [![CircleCI](https://badgen.net/circleci/github/scttcper/mac-address)](https://circleci.com/gh/scttcper/mac-address) [![coverage](https://badgen.net/codecov/c/github/scttcper/mac-address)](https://codecov.io/gh/scttcper/mac-address)
 
 Zero dependency typescript port of [joyent/node-macaddr](https://github.com/joyent/node-macaddr) and getMac [bevry/getmac](https://github.com/bevry/getmac)
 
