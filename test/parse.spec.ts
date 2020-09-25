@@ -46,8 +46,12 @@ it('should error on trailing separator', () => {
 
 it('should error on imcomplete addresses', () => {
   expect(() => parseMAC(':')).toThrowError('Expected to find a hexadecimal number before ":"');
-  expect(() => parseMAC('1::0:e:5:6')).toThrowError('Expected to find a hexadecimal number before ":"');
-  expect(() => parseMAC('1-2-3--5-6')).toThrowError('Expected to find a hexadecimal number before "-"');
+  expect(() => parseMAC('1::0:e:5:6')).toThrowError(
+    'Expected to find a hexadecimal number before ":"',
+  );
+  expect(() => parseMAC('1-2-3--5-6')).toThrowError(
+    'Expected to find a hexadecimal number before "-"',
+  );
   expect(() => parseMAC('')).toThrowError('MAC address is too short');
   expect(() => parseMAC('0a0b0c0d0e')).toThrowError('MAC address is too short');
   expect(() => parseMAC('a:b:c:d:e')).toThrowError('Too few octets in MAC address');
