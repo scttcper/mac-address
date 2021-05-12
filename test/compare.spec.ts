@@ -1,3 +1,5 @@
+import { expect, it } from '@jest/globals';
+
 import { parseMAC } from '../src/index';
 
 it.each([

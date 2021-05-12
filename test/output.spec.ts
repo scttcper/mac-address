@@ -1,5 +1,8 @@
-import { ADDRESS_NUM_PAIRS } from './macs';
+import { expect, it } from '@jest/globals';
+
 import { parseMAC } from '../src/index';
+
+import { ADDRESS_NUM_PAIRS } from './macs';
 
 it.each(ADDRESS_NUM_PAIRS)('should output long %s', (mac, value) => {
   expect(parseMAC(mac).toLong()).toBe(value);

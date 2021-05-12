@@ -1,5 +1,8 @@
-import { ADDRESS_NUM_PAIRS } from './macs';
+import { expect, it } from '@jest/globals';
+
 import { parseMAC } from '../src/index';
+
+import { ADDRESS_NUM_PAIRS } from './macs';
 
 it.each([
   '0a0b0c0d0e0f',
