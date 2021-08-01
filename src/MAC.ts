@@ -52,7 +52,7 @@ export class MAC {
         result += ':';
       }
 
-      const octet = fields[i].toString(16);
+      const octet = fields[i]?.toString(16) ?? '';
       if (zeroPad && octet.length === 1) {
         result += '0';
       }
