@@ -1,3 +1,3 @@
-export { getMAC } from './getMAC';
-export { parseMAC, parseString, parseLong } from './parseMAC';
-export { MAC } from './MAC';
+export { getMAC } from './getMAC.js';
+export { parseMAC, parseString, parseLong } from './parseMAC.js';
+export { MAC } from './MAC.js';

@@ -1,12 +1,10 @@
-import { describe, expect, it } from '@jest/globals';
+import test from 'ava';
 
-import { getMAC } from '../src/index';
+import { getMAC } from '../src/index.js';
 
-describe('getMAC', () => {
-  it('got the first MAC address successfully', () => {
-    const macAddress = getMAC();
-    expect(macAddress).not.toBe('00-00-00-00-00-00');
-    expect(macAddress).not.toBe('00:00:00:00:00:00');
-    expect(typeof macAddress).toBe('string');
-  });
+test('got the first MAC address successfully', t => {
+  const macAddress = getMAC();
+  t.not(macAddress, '00-00-00-00-00-00');
+  t.not(macAddress, '00:00:00:00:00:00');
+  t.is(typeof macAddress, 'string');
 });

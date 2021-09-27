@@ -3,9 +3,6 @@
   "version": "0.0.0-placeholder",
   "description": "Parse and manipulate MAC addresses",
   "author": "Scott Cooper <scttcper@gmail.com>",
-  "publishConfig": {
-    "access": "public"
-  },
   "license": "MIT",
   "repository": "scttcper/mac-address",
   "type": "module",
@@ -25,35 +22,35 @@
     "lint:fix": "eslint --fix --ext .ts .",
     "prepare": "npm run build",
     "build": "tsc",
-    "test": "jest",
-    "test:watch": "jest --watch",
-    "test:ci": "jest --ci --reporters=default --reporters=jest-junit --coverage"
+    "test": "ava",
+    "test:watch": "ava --watch",
+    "test:ci": "c8 --reporter=text --reporter=lcov ava"
   },
   "devDependencies": {
-    "@ctrl/eslint-config": "2.0.10",
-    "@jest/globals": "27.0.6",
-    "@sindresorhus/tsconfig": "1.0.2",
-    "@types/node": "16.4.10",
-    "jest-junit": "12.2.0",
-    "jest": "27.0.6",
-    "ts-jest": "27.0.4",
-    "typescript": "4.3.5"
+    "@ctrl/eslint-config": "2.1.0",
+    "@sindresorhus/tsconfig": "2.0.0",
+    "@types/node": "16.10.1",
+    "ava": "4.0.0-alpha.2",
+    "c8": "7.9.0",
+    "ts-node": "10.2.1",
+    "typescript": "4.4.3"
   },
-  "jest": {
-    "testEnvironment": "node",
-    "collectCoverageFrom": ["src/**/**.ts"],
-    "testMatch": ["**/test/**/**.spec.ts"],
-    "coverageProvider": "v8",
-    "preset": "ts-jest/presets/default-esm",
-    "globals": {
-      "ts-jest": {
-        "useESM": true,
-        "isolatedModules": true
-      }
-    }
+  "ava": {
+    "files": [
+      "test/**/*.spec.ts"
+    ],
+    "extensions": {
+      "ts": "module"
+    },
+    "nodeArguments": [
+      "--loader=ts-node/esm"
+    ]
   },
   "release": {
     "branch": "master"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "engines": {
     "node": ">=14.16"

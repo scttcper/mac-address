@@ -1,4 +1,4 @@
-import { MAC } from './MAC';
+import { MAC } from './MAC.js';
 
 const HEX_RE = /^[a-f0-9]$/;
 
