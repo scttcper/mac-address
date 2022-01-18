@@ -3,5 +3,8 @@
   "compilerOptions": {
     "lib": ["ES2021"],
     "outDir": "dist"
+  },
+  "ts-node": {
+    "transpileOnly": true
   }
 }
