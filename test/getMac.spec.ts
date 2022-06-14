@@ -1,10 +1,10 @@
-import test from 'ava';
+import { expect, it } from 'vitest';
 
 import { getMAC } from '../src/index.js';
 
-test('got the first MAC address successfully', t => {
+it('got the first MAC address successfully', () => {
   const macAddress = getMAC();
-  t.not(macAddress, '00-00-00-00-00-00');
-  t.not(macAddress, '00:00:00:00:00:00');
-  t.is(typeof macAddress, 'string');
+  expect(macAddress).not.toBe('00-00-00-00-00-00');
+  expect(macAddress).not.toBe('00:00:00:00:00:00');
+  expect(typeof macAddress).toBe('string');
 });
