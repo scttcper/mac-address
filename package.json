@@ -27,7 +27,7 @@
     "test:ci": "vitest run --coverage --reporter=default --reporter=junit --outputFile=./junit.xml"
   },
   "devDependencies": {
-    "@ctrl/eslint-config": "3.6.0",
+    "@ctrl/eslint-config": "3.6.2",
     "@sindresorhus/tsconfig": "3.0.1",
     "@types/node": "18.15.0",
     "@vitest/coverage-c8": "0.29.2",
