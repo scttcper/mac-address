@@ -1,4 +1,4 @@
-export const ADDRESS_NUM_PAIRS: Array<[string, number]> = [
+export const ADDRESS_NUM_PAIRS: [string, number][] = [
   ['0a:0b:0c:0d:0e:0f', 0x0a0b0c0d0e0f],
   ['1a:0b:30:0a:0e:00', 0x1a0b300a0e00],
   ['ff:ff:ff:ff:ff:ff', 281474976710655],
