@@ -11,9 +11,11 @@ export function parseString(input: string): MAC {
   function process(): void {
     if (octet.length === 0) {
       throw new Error('Expected to find a hexadecimal number before ' + JSON.stringify(sep));
-    } else if (octet.length > 2) {
+    }
+    if (octet.length > 2) {
       throw new Error('Too many hexadecimal digits in ' + JSON.stringify(octet));
-    } else if (pos < 6) {
+    }
+    if (pos < 6) {
       const tmp = parseInt(octet, 16);
       if (Number.isNaN(tmp)) {
         throw new Error('Expected to find an integer');
@@ -83,6 +85,7 @@ export function parseLong(input: number): MAC {
 }
 
 export function parseMAC(input: string | number): MAC {
+  // eslint-disable-next-line @typescript-eslint/switch-exhaustiveness-check
   switch (typeof input) {
     case 'string':
       return parseString(input);

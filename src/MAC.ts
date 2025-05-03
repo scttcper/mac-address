@@ -1,3 +1,4 @@
+/* eslint-disable no-bitwise */
 interface ToStringOptions {
   /** Pad with zeros when an octet would print as 1 char */
   zeroPad?: boolean;
