@@ -10,18 +10,18 @@ export function parseString(input: string): MAC {
 
   function process(): void {
     if (octet.length === 0) {
-      throw new Error('Expected to find a hexadecimal number before ' + JSON.stringify(sep));
+      throw new Error(`Expected to find a hexadecimal number before ${JSON.stringify(sep)}`);
     }
     if (octet.length > 2) {
-      throw new Error('Too many hexadecimal digits in ' + JSON.stringify(octet));
+      throw new Error(`Too many hexadecimal digits in ${JSON.stringify(octet)}`);
     }
     if (pos < 6) {
-      const tmp = parseInt(octet, 16);
+      const tmp = Number.parseInt(octet, 16);
       if (Number.isNaN(tmp)) {
-        throw new Error('Expected to find an integer');
+        throw new TypeError('Expected to find an integer');
       }
 
-      value *= 0x100;
+      value *= 0x1_00;
       value += tmp;
       pos += 1;
       octet = '';
@@ -43,13 +43,13 @@ export function parseString(input: string): MAC {
     } else if (HEX_RE.test(chr)) {
       octet += chr;
     } else {
-      throw new Error('Unrecognized character ' + JSON.stringify(chr));
+      throw new Error(`Unrecognized character ${JSON.stringify(chr)}`);
     }
   }
 
   // Ending validation
   if (chr === sep) {
-    throw new Error('Trailing ' + JSON.stringify(sep) + ' in MAC address');
+    throw new Error(`Trailing ${JSON.stringify(sep)} in MAC address`);
   }
 
   if (pos === 0) {
@@ -57,9 +57,9 @@ export function parseString(input: string): MAC {
       throw new Error('MAC address is too short');
     }
 
-    value = parseInt(octet, 16);
+    value = Number.parseInt(octet, 16);
     if (Number.isNaN(value)) {
-      throw new Error('Expected to find an integer');
+      throw new TypeError('Expected to find an integer');
     }
   } else {
     process();
@@ -77,7 +77,7 @@ export function parseLong(input: number): MAC {
     throw new Error('Value must be an integer');
   }
 
-  if (input < 0 || input > 0xffffffffffff) {
+  if (input < 0 || input > 281_474_976_710_655) {
     throw new Error('Value must be 48-bit');
   }
 
@@ -85,13 +85,15 @@ export function parseLong(input: number): MAC {
 }
 
 export function parseMAC(input: string | number): MAC {
-  // eslint-disable-next-line @typescript-eslint/switch-exhaustiveness-check
   switch (typeof input) {
-    case 'string':
+    case 'string': {
       return parseString(input);
-    case 'number':
+    }
+    case 'number': {
       return parseLong(input);
-    default:
-      throw new Error('Expected string or integer, but got ' + typeof input);
+    }
+    default: {
+      throw new Error(`Expected string or integer, but got ${typeof input}`);
+    }
   }
 }

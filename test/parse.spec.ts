@@ -13,7 +13,7 @@ it.each([
   'a-b-c-d-e-f',
   'a-0b-c-d-0e-f',
 ])('should parse string equivalent ways to write addresses %s', mac => {
-  const v = 0x0a0b0c0d0e0f;
+  const v = 11_042_563_100_175;
 
   const uc = mac.toUpperCase();
   expect(parseMAC(uc).toLong()).toBe(v);
