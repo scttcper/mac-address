@@ -1,6 +1,11 @@
 # @ctrl/mac-address [![npm](https://badgen.net/npm/v/@ctrl/mac-address)](https://www.npmjs.com/package/@ctrl/mac-address)
 
-Zero dependency typescript port of [joyent/node-macaddr](https://github.com/joyent/node-macaddr) and getMac [bevry/getmac](https://github.com/bevry/getmac)
+Parse, format, compare, and read MAC addresses in TypeScript.
+
+- Zero runtime dependencies
+- ESM only
+- Supports compact, colon-separated, and dash-separated addresses
+- Includes a small `getMAC()` helper for the first non-zero local network interface MAC
 
 ### Install
 
@@ -8,23 +13,40 @@ Zero dependency typescript port of [joyent/node-macaddr](https://github.com/joye
 npm install @ctrl/mac-address
 ```
 
-### Use
-
-Example converting a mac address from a string to a number and then a base16 mac address which some apis need.
+### Usage
 
 ```ts
 import { getMAC, parseMAC } from '@ctrl/mac-address';
 
-// Get first non-zero mac address
-const mac = getMAC();
+const localMac = getMAC();
+const address = parseMAC(localMac);
 
-// Convert a string mac address to a base16 string
-const macNumber = parseMAC(mac).toLong();
+address.toString();
+//=> '0a:0b:0c:0d:0e:0f'
 
-// Native js toString convert the number to base 16
-const macBase16 = macNumber.toString(16);
+address.toLong();
+//=> 11042563100175
+```
+
+Convert a MAC address to a base-16 string for APIs that expect the numeric form.
+
+```ts
+const macBase16 = parseMAC('0a:0b:0c:0d:0e:0f').toLong().toString(16);
+//=> 'a0b0c0d0e0f'
+```
+
+### Supported Input
+
+```ts
+parseMAC('0a0b0c0d0e0f');
+parseMAC('0a:0b:0c:0d:0e:0f');
+parseMAC('a:b:c:d:e:f');
+parseMAC('0a-0b-0c-0d-0e-0f');
+parseMAC('a-b-c-d-e-f');
+parseMAC(11_042_563_100_175);
 ```
 
 ### See Also
 
-getmac - https://github.com/bevry/getmac
+- [joyent/node-macaddr](https://github.com/joyent/node-macaddr) - original MAC parsing and formatting behavior this package was ported from.
+- [bevry/getmac](https://github.com/bevry/getmac) - original inspiration for the local network interface `getMAC()` helper.
