@@ -39,13 +39,13 @@ export class MAC {
        * arithmetic, so we have to handle the first two parts of the number
        * differently.
        */
-      (this._value / 0x010000000000) & 0xff,
-      (this._value / 0x000100000000) & 0xff,
+      (this._value / 0x01_00_00_00_00_00) & 255,
+      (this._value / 0x00_01_00_00_00_00) & 255,
 
-      (this._value >>> 24) & 0xff,
-      (this._value >>> 16) & 0xff,
-      (this._value >>> 8) & 0xff,
-      this._value & 0xff,
+      (this._value >>> 24) & 255,
+      (this._value >>> 16) & 255,
+      (this._value >>> 8) & 255,
+      this._value & 255,
     ];
 
     for (let i = 0; i < fields.length; i++) {

@@ -1,4 +1,4 @@
-import { networkInterfaces } from 'os';
+import { networkInterfaces } from 'node:os';
 
 const zeroRegex = /(?:[0]{1,2}[:-]){5}[0]{1,2}/;
 

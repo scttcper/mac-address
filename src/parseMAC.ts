@@ -1,30 +1,44 @@
 import { MAC } from './MAC.js';
 
-const HEX_RE = /^[a-f0-9]$/;
+// Keep string parsing allocation-light: this replaces per-character regex checks
+// and lets parseString accumulate octet values without calling parseInt.
+function parseHexDigit(chr: string): number {
+  const code = chr.charCodeAt(0);
+
+  if (code >= 48 && code <= 57) {
+    return code - 48;
+  }
+
+  if (code >= 65 && code <= 70) {
+    return code - 55;
+  }
+
+  if (code >= 97 && code <= 102) {
+    return code - 87;
+  }
+
+  return -1;
+}
 
 export function parseString(input: string): MAC {
-  const lowercaseinput = input.toLowerCase();
   let pos = 0;
   let octet = '';
+  let octetValue = 0;
   let value = 0;
 
   function process(): void {
     if (octet.length === 0) {
-      throw new Error('Expected to find a hexadecimal number before ' + JSON.stringify(sep));
+      throw new Error(`Expected to find a hexadecimal number before ${JSON.stringify(sep)}`);
     }
     if (octet.length > 2) {
-      throw new Error('Too many hexadecimal digits in ' + JSON.stringify(octet));
+      throw new Error(`Too many hexadecimal digits in ${JSON.stringify(octet)}`);
     }
     if (pos < 6) {
-      const tmp = parseInt(octet, 16);
-      if (Number.isNaN(tmp)) {
-        throw new Error('Expected to find an integer');
-      }
-
-      value *= 0x100;
-      value += tmp;
+      value *= 0x1_00;
+      value += octetValue;
       pos += 1;
       octet = '';
+      octetValue = 0;
     } else {
       throw new Error('Too many octets in MAC address');
     }
@@ -32,7 +46,7 @@ export function parseString(input: string): MAC {
 
   let chr = '';
   let sep: string | null = null;
-  for (chr of lowercaseinput) {
+  for (chr of input) {
     // Lock to first separator
     if (sep === null && (chr === ':' || chr === '-')) {
       sep = chr;
@@ -40,16 +54,20 @@ export function parseString(input: string): MAC {
 
     if (chr === sep) {
       process();
-    } else if (HEX_RE.test(chr)) {
-      octet += chr;
     } else {
-      throw new Error('Unrecognized character ' + JSON.stringify(chr));
+      const hexValue = parseHexDigit(chr);
+      if (hexValue === -1) {
+        throw new Error(`Unrecognized character ${JSON.stringify(chr)}`);
+      }
+
+      octet += chr;
+      octetValue = octetValue * 16 + hexValue;
     }
   }
 
   // Ending validation
   if (chr === sep) {
-    throw new Error('Trailing ' + JSON.stringify(sep) + ' in MAC address');
+    throw new Error(`Trailing ${JSON.stringify(sep)} in MAC address`);
   }
 
   if (pos === 0) {
@@ -57,9 +75,9 @@ export function parseString(input: string): MAC {
       throw new Error('MAC address is too short');
     }
 
-    value = parseInt(octet, 16);
+    value = Number.parseInt(octet, 16);
     if (Number.isNaN(value)) {
-      throw new Error('Expected to find an integer');
+      throw new TypeError('Expected to find an integer');
     }
   } else {
     process();
@@ -77,7 +95,7 @@ export function parseLong(input: number): MAC {
     throw new Error('Value must be an integer');
   }
 
-  if (input < 0 || input > 0xffffffffffff) {
+  if (input < 0 || input > 281_474_976_710_655) {
     throw new Error('Value must be 48-bit');
   }
 
@@ -85,13 +103,15 @@ export function parseLong(input: number): MAC {
 }
 
 export function parseMAC(input: string | number): MAC {
-  // eslint-disable-next-line @typescript-eslint/switch-exhaustiveness-check
   switch (typeof input) {
-    case 'string':
+    case 'string': {
       return parseString(input);
-    case 'number':
+    }
+    case 'number': {
       return parseLong(input);
-    default:
-      throw new Error('Expected string or integer, but got ' + typeof input);
+    }
+    default: {
+      throw new Error(`Expected string or integer, but got ${typeof input}`);
+    }
   }
 }
