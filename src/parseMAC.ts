@@ -1,11 +1,29 @@
 import { MAC } from './MAC.js';
 
-const HEX_RE = /^[a-f0-9]$/;
+// Keep string parsing allocation-light: this replaces per-character regex checks
+// and lets parseString accumulate octet values without calling parseInt.
+function parseHexDigit(chr: string): number {
+  const code = chr.charCodeAt(0);
+
+  if (code >= 48 && code <= 57) {
+    return code - 48;
+  }
+
+  if (code >= 65 && code <= 70) {
+    return code - 55;
+  }
+
+  if (code >= 97 && code <= 102) {
+    return code - 87;
+  }
+
+  return -1;
+}
 
 export function parseString(input: string): MAC {
-  const lowercaseinput = input.toLowerCase();
   let pos = 0;
   let octet = '';
+  let octetValue = 0;
   let value = 0;
 
   function process(): void {
@@ -16,15 +34,11 @@ export function parseString(input: string): MAC {
       throw new Error(`Too many hexadecimal digits in ${JSON.stringify(octet)}`);
     }
     if (pos < 6) {
-      const tmp = Number.parseInt(octet, 16);
-      if (Number.isNaN(tmp)) {
-        throw new TypeError('Expected to find an integer');
-      }
-
       value *= 0x1_00;
-      value += tmp;
+      value += octetValue;
       pos += 1;
       octet = '';
+      octetValue = 0;
     } else {
       throw new Error('Too many octets in MAC address');
     }
@@ -32,7 +46,7 @@ export function parseString(input: string): MAC {
 
   let chr = '';
   let sep: string | null = null;
-  for (chr of lowercaseinput) {
+  for (chr of input) {
     // Lock to first separator
     if (sep === null && (chr === ':' || chr === '-')) {
       sep = chr;
@@ -40,10 +54,14 @@ export function parseString(input: string): MAC {
 
     if (chr === sep) {
       process();
-    } else if (HEX_RE.test(chr)) {
-      octet += chr;
     } else {
-      throw new Error(`Unrecognized character ${JSON.stringify(chr)}`);
+      const hexValue = parseHexDigit(chr);
+      if (hexValue === -1) {
+        throw new Error(`Unrecognized character ${JSON.stringify(chr)}`);
+      }
+
+      octet += chr;
+      octetValue = octetValue * 16 + hexValue;
     }
   }
 
